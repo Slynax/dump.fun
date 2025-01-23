@@ -1,7 +1,5 @@
-import { Server as SocketIoServer } from 'socket.io';
+import {Server as SocketIoServer, Socket} from 'socket.io';
 import { Server } from 'http';
-
-import { AuthentificatedSocketConnection } from './types';
 
 let SocketServer: SocketIoServer;
 
@@ -14,11 +12,11 @@ export function initSockets({ server: expressServer }: { server: Server }) {
         maxHttpBufferSize: 1e8,
     });
 
-    SocketServer.on('connection', (socket: AuthentificatedSocketConnection) => {
+    SocketServer.on('connection', (socket) => {
         console.info(`New socket connected`);
     });
 
-    SocketServer.on('disconnect', (socket: AuthentificatedSocketConnection) => {
+    SocketServer.on('disconnect', (socket) => {
         console.info(`Socket disconnected`);
     });
 

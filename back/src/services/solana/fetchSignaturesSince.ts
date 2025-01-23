@@ -10,6 +10,10 @@ export const fetchSignaturesSince = async ({
     cutoffTimeSec: number;
     limit?: number;
 }) => {
+    if (!connection) {
+        return false;
+    }
+
     let allSignatures = [];
     let beforeSig = undefined;
 

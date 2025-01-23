@@ -1,16 +1,12 @@
-import { fetchSignaturesSince } from '../services/solana/fetchSignaturesSince';
+import { fetchSignaturesSince } from '../src/services/solana/fetchSignaturesSince';
 
 import {
     Connection,
     PublicKey
 } from '@solana/web3.js';
-import {buildTransactionData} from "../helpers/buildTransactionsData";
-import {buildCandles} from "../helpers/buildCandles";
+import {buildTransactionData} from "../src/helpers/buildTransactionsData";
+import {buildCandles} from "../src/helpers/buildCandles";
 
-/**
- * We’ll mock out the Connection class so we don’t hit real RPC endpoints.
- * Instead, we'll simulate how the methods should behave.
- */
 jest.mock('@solana/web3.js', () => {
     // We keep references to the original module so we can still use PublicKey, etc.
     const originalModule = jest.requireActual('@solana/web3.js');
@@ -66,7 +62,7 @@ describe('fetchSignaturesSince', () => {
                 { signature: 'SIG_4', blockTime: 999999890 }  // older => filtered out
             ]);
 
-        const result = await fetchSignaturesSince(connection, programId, cutoffTimeSec);
+        const result = await fetchSignaturesSince({programId, cutoffTimeSec});
 
         expect(result).toHaveLength(2);
         expect(result).toEqual(
@@ -84,7 +80,7 @@ describe('fetchSignaturesSince', () => {
         mockGetSignaturesForAddress.mockResolvedValue([]);
         const cutoffTimeSec = 999999900;
 
-        const result = await fetchSignaturesSince(connection, programId, cutoffTimeSec);
+        const result = await fetchSignaturesSince({programId, cutoffTimeSec});
         expect(result).toHaveLength(0);
     });
 });
@@ -95,7 +91,7 @@ describe('buildTransactionData', () => {
 
     beforeEach(() => {
         connection = new Connection(); // mocked
-        mockGetTransactions = jest.spyOn(connection, 'getTransactions');
+        mockGetTransactions = jest.spyOn(connection, 'getTransactions', 'get');
     });
 
     afterEach(() => {
@@ -127,7 +123,7 @@ describe('buildTransactionData', () => {
             }
         ]);
 
-        const result = await buildTransactionData(connection, signatures);
+        const result = await buildTransactionData({signatures});
 
         // We expect:
         // - For SIG_A: blockTime=111111000, lamportsChange = +10
@@ -214,7 +210,7 @@ describe('buildCandles', () => {
         ];
         const hoursPerCandle = 1;
 
-        const candles = buildCandles(txDataArray, hoursPerCandle);
+        const candles = buildCandles({txDataArray});
         expect(candles).toHaveLength(1);
         // In the default example, it starts from the earliest TX (ts=100 => hourIndex=0)
         // and ends at the last TX (ts=200 => hourIndex=0).

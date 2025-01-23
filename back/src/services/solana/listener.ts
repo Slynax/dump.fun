@@ -1,10 +1,14 @@
 import {connection} from "./connection";
 
-const {
+import {
     PublicKey
-} = require('@solana/web3.js');
+} from '@solana/web3.js';
 
 export const listener = ({ programId }: { programId: string }) => {
+    if (!connection) {
+        return;
+    }
+
     const PROGRAM_ID = new PublicKey(programId);
 
     return connection.onLogs(

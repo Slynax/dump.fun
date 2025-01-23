@@ -1,4 +1,4 @@
-export const buildCandles = ({txDataArray}: { txDataArray: Array<{ timestamp: number, value: number }> }) => {
+export const buildCandles = ({txDataArray}: { txDataArray: Array<{ timestamp: number, value: number }> }): Array<any> | false => {
     if (txDataArray.length === 0) return [];
 
     txDataArray.sort((a, b) => a.timestamp - b.timestamp);
