@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "target": "ES2022",
+    "strict": true,
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "baseUrl": "src",
+    "skipLibCheck": true,
+  },
+  "include": ["src/**/*", "__test__/**/*"],
+  "exclude": ["node_modules", "__test__"],
+  "baseUrl": "./src",
+}
