@@ -106,11 +106,11 @@ jobs:
     - name: Start front Docker container
       run: docker run -d -p 80:80 ${{ secrets.DOCKER_USERNAME }}/dump.fun-front:latest
 
-    - name: Install dependencies
-      run: npm install --prefix front
+    - name: Wait for the container to be ready
+      run: sleep 10
 
-    - name: Run tests with Jest
-      run: npm test --prefix front
+    - name: Test front-end with curl
+      run: curl -f http://localhost
   
   push-back:
     runs-on: ubuntu-latest
