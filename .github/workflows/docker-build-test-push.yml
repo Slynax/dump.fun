@@ -1,7 +1,6 @@
 name: Build, Test, and Push Docker Image to Docker Hub
 
 on:
-  push:
   release:
     types:
       - published
