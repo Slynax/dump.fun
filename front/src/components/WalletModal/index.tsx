@@ -1,5 +1,5 @@
 import React from "react";
-import {Modal, Button, Typography, Flex, Input} from "antd";
+import {Modal, Button, Typography, Flex, Input, notification} from "antd";
 import {ModalContainer} from "./styles.tsx";
 
 export const WalletModal: React.FC<{
@@ -48,8 +48,15 @@ export const WalletModal: React.FC<{
                 setWalletBalance(data.balance);
                 setWalletIsConnected(true);
                 setMode("create");
+                notification.success({
+                    message: 'Success',
+                    description: 'Wallet created successfully',
+                });
             }else{
-                //TODO Notif
+                notification.error({
+                    message: 'Error',
+                    description: 'An error occured while creating wallet',
+                });
             }
         } catch (error) {
             console.error('Error generating wallet:', error);
@@ -73,8 +80,15 @@ export const WalletModal: React.FC<{
                 setWalletBalance(data.balance);
                 setWalletIsConnected(true);
                 setIsModalOpen(false);
+                notification.success({
+                    message: 'Success',
+                    description: 'Wallet restored successfully',
+                });
             }else{
-                //TODO Notif
+                notification.error({
+                    message: 'Error',
+                    description: 'An error occured while restoring wallet',
+                });
             }
         } catch (error) {
             console.error('Error restore wallet:', error);
