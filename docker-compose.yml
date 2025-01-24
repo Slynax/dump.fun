@@ -1,14 +1,14 @@
 services:
 
   back:
-    build: ./back
+    image: ${{ secrets.DOCKER_USERNAME }}/dump.fun-back:latest
     ports:
       - "5001:5001"
     environment:
       - NODE_ENV=production
 
   front:
-    build: ./front
+    image: ${{ secrets.DOCKER_USERNAME }}/dump.fun-front:latest
     ports:
       - "80:80"
     depends_on:
