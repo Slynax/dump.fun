@@ -1,11 +1,12 @@
-export type RequestInterfaceBody = {};
-
-export type RequestInterfaceQuery = {
+export type RequestInterfaceBody = {
     privateKey: string;
 };
 
+export type RequestInterfaceQuery = {
+
+};
+
 export type RequestInterfaceParams = {
-    [key: string]: unknown;
 };
 
 export type ResponseInterface = {

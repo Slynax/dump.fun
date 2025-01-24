@@ -4,10 +4,11 @@ export type RequestInterfaceQuery = {
 };
 
 export type RequestInterfaceParams = {
-    [key: string]: unknown;
+
 };
 
 export type ResponseInterface = {
     publicKey: string;
+    privateKey: string;
     balance: number;
 };

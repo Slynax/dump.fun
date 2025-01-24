@@ -1,16 +1,20 @@
 import React, {useState} from "react"
-import {Button, Typography} from "antd"
-import {MyNavBar, Title} from "./styles.tsx"
-import {WalletModal} from "../WalletModal";
+import {Button, Flex} from "antd"
+import {MyNavBar, Title, Label} from "./styles.tsx"
 
-export const Navbar: React.FC<{setIsModalOpen: (value: boolean) => void }> = ({
-    setIsModalOpen
+export const Navbar: React.FC<{
+    setIsModalOpen: (value: boolean) => void,
+    walletIsConnected:boolean,
+    walletPublicKey: string
+}> = ({
+    setIsModalOpen,
+    walletIsConnected,
+    walletPublicKey
 }:{
-    setIsModalOpen: (value: boolean) => void
+    setIsModalOpen: (value: boolean) => void,
+    walletIsConnected: boolean,
+    walletPublicKey: string
 }) => {
-    const [walletIsConnected, setWalletIsConnected] = useState(false)
-    const [publicKey, setPublicKey] = useState("")
-
     const onBtnClick = () => {
         setIsModalOpen(true);
     }
@@ -18,11 +22,13 @@ export const Navbar: React.FC<{setIsModalOpen: (value: boolean) => void }> = ({
         <MyNavBar justify="space-between" align="center" >
             <Title level={3}>Dump.fun</Title>
             {walletIsConnected ? (
-                <Typography.Text >{publicKey}</Typography.Text>
+                <Flex gap={5} align="center">
+                    <Label copyable={{text: walletPublicKey}}>{walletPublicKey.slice(0,4)}...{walletPublicKey.slice(-4)}</Label>
+                    <Button onClick={onBtnClick}>Create/import wallet</Button>
+                </Flex>
             ) : (
                 <Button onClick={onBtnClick}>Create/import wallet</Button>
             )}
-
         </MyNavBar>
     )
 }

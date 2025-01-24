@@ -8,7 +8,7 @@ export default async (
     res: Response<ResponseInterface>,
 ): Promise<Response<ResponseInterface>> => {
 
-    const { privateKey } = req.query;
+    const { privateKey } = req.body;
 
     const keypair = restoreWallet(privateKey);
 
@@ -18,12 +18,12 @@ export default async (
 
     const balance = await getWalletBalance(keypair);
 
-    if (!balance) {
+    if (!balance && balance !== 0) {
         return res.status(500);
     }
 
     return res.send({
-        publicKey: keypair.publicKey.toString(),
+        publicKey: keypair.publicKey.toBase58(),
         balance,
     });
 };

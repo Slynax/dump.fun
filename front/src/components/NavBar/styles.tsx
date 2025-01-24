@@ -10,3 +10,7 @@ export const MyNavBar = styled(Flex)`
 export const Title = styled(Typography.Title)`
     color: white !important;
 `;
+
+export const Label = styled(Typography.Text)`
+    color: white;
+`;

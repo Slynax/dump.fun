@@ -6,17 +6,20 @@ export const WalletModal: React.FC<{
     isModalOpen: boolean,
     setIsModalOpen: (value: boolean) => void ,
     setWalletIsConnected: (value: boolean) => void,
-    setWalletPublicKey: (value: string) => void
+    setWalletPublicKey: (value: string) => void,
+    setWalletBalance: (value: number) => void
 }> = ({
     isModalOpen,
     setIsModalOpen,
     setWalletIsConnected,
-    setWalletPublicKey
+    setWalletPublicKey,
+    setWalletBalance
 }:{
     isModalOpen: boolean,
     setIsModalOpen: (value: boolean) => void
     setWalletIsConnected: (value: boolean) => void
-    setWalletPublicKey: (value: string) => void
+    setWalletPublicKey: (value: string) => void,
+    setWalletBalance: (value: number) => void
 }) => {
     const [mode, setMode] = React.useState("default")
     const [publicKey, setPublicKey] = React.useState("")
@@ -26,11 +29,62 @@ export const WalletModal: React.FC<{
         setIsModalOpen(false)
     }
     const onCreateBtnClick = () => {
-        setMode("create")
+        createWallet()
     }
     const onImportBtnClick = () => {
         setMode("import")
     }
+
+    const createWallet = async () => {
+        try {
+            const response = await fetch('http://localhost:5001/api/generateWallet', {
+                method: 'GET',
+            });
+            const data = await response.json();
+            if (response.status == 200) {
+                setPublicKey(data.publicKey);
+                setPrivateKey(data.privateKey);
+                setWalletPublicKey(data.publicKey);
+                setWalletBalance(data.balance);
+                setWalletIsConnected(true);
+                setMode("create");
+            }else{
+                //TODO Notif
+            }
+        } catch (error) {
+            console.error('Error generating wallet:', error);
+        }
+    }
+
+    const restoreWallet = async () => {
+        try {
+            const response = await fetch('http://localhost:5001/api/restoreWallet', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ privateKey })
+            });
+
+            const data = await response.json();
+            if (response.status == 200) {
+                setPublicKey(data.publicKey);
+                setWalletPublicKey(data.publicKey);
+                setWalletBalance(data.balance);
+                setWalletIsConnected(true);
+                setIsModalOpen(false);
+            }else{
+                //TODO Notif
+            }
+        } catch (error) {
+            console.error('Error restore wallet:', error);
+        }
+    }
+
+    const onSecretKeyChange = (e: any) => {
+        setPrivateKey(e.target.value)
+    }
+
     return (
         <Modal open={isModalOpen} onCancel={onModalClose} footer={null}>
             {mode === "default" &&
@@ -41,13 +95,13 @@ export const WalletModal: React.FC<{
             }
             {mode === "create" &&
                 <ModalContainer justify="space-evenly" vertical>
-                    <Flex><Typography.Text>public key</Typography.Text><Typography.Text copyable={{ text: publicKey }}>3sql...nl5l</Typography.Text></Flex>
-                    <Flex><Typography.Text>private key</Typography.Text><Typography.Text copyable={{ text: privateKey }}>3REB...Q4SQ</Typography.Text></Flex>
+                    <Flex gap={5}><Typography.Text strong={true}>public key :</Typography.Text><Typography.Text copyable={{ text: publicKey }}>{publicKey.slice(0,4)}...{publicKey.slice(-4)}</Typography.Text></Flex>
+                    <Flex gap={5}><Typography.Text strong={true}>private key :</Typography.Text><Typography.Text copyable={{ text: privateKey }}>{privateKey.slice(0,4)}...{privateKey.slice(-4)}</Typography.Text></Flex>
                 </ModalContainer>
             }
             {mode === "import" &&
                 <ModalContainer justify="space-evenly" vertical>
-                    <Input></Input><Button>Apply</Button>
+                    <Input placeholder="enter private Key" onChange={onSecretKeyChange}></Input><Button onClick={restoreWallet}>Apply</Button>
                 </ModalContainer>
             }
         </Modal>
