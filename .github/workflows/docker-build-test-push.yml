@@ -74,7 +74,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: back-docker-image
-        path: back-image.tar
 
     - name: Load back Docker image
       run: docker load -i back-image.tar
@@ -100,7 +99,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: front-docker-image
-        path: front-image.tar
 
     - name: Load front Docker image
       run: docker load -i front-image.tar
