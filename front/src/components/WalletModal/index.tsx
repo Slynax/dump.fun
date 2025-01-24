@@ -6,19 +6,25 @@ export const WalletModal: React.FC<{
     isModalOpen: boolean,
     setIsModalOpen: (value: boolean) => void ,
     setWalletIsConnected: (value: boolean) => void,
+    walletIsConnected: boolean,
     setWalletPublicKey: (value: string) => void,
+    setWalletSecretKey: (value: string) => void,
     setWalletBalance: (value: number) => void
 }> = ({
     isModalOpen,
     setIsModalOpen,
     setWalletIsConnected,
+    walletIsConnected,
     setWalletPublicKey,
+    setWalletSecretKey,
     setWalletBalance
 }:{
     isModalOpen: boolean,
     setIsModalOpen: (value: boolean) => void
     setWalletIsConnected: (value: boolean) => void
+    walletIsConnected: boolean,
     setWalletPublicKey: (value: string) => void,
+    setWalletSecretKey: (value: string) => void,
     setWalletBalance: (value: number) => void
 }) => {
     const [mode, setMode] = React.useState("default")
@@ -45,6 +51,7 @@ export const WalletModal: React.FC<{
                 setPublicKey(data.publicKey);
                 setPrivateKey(data.privateKey);
                 setWalletPublicKey(data.publicKey);
+                setWalletSecretKey(data.privateKey);
                 setWalletBalance(data.balance);
                 setWalletIsConnected(true);
                 setMode("create");
@@ -77,6 +84,7 @@ export const WalletModal: React.FC<{
             if (response.status == 200) {
                 setPublicKey(data.publicKey);
                 setWalletPublicKey(data.publicKey);
+                setWalletSecretKey(privateKey);
                 setWalletBalance(data.balance);
                 setWalletIsConnected(true);
                 setIsModalOpen(false);
@@ -103,6 +111,7 @@ export const WalletModal: React.FC<{
         <Modal open={isModalOpen} onCancel={onModalClose} footer={null}>
             {mode === "default" &&
                 <ModalContainer justify="space-evenly" vertical>
+                    {walletIsConnected && <Typography.Text strong={true}>You are already connected !</Typography.Text>}
                     <Button onClick={onCreateBtnClick}>Create Wallet</Button>
                     <Button onClick={onImportBtnClick}>Import Wallet</Button>
                 </ModalContainer>

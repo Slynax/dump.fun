@@ -5,15 +5,18 @@ import {MyNavBar, Title, Label} from "./styles.tsx"
 export const Navbar: React.FC<{
     setIsModalOpen: (value: boolean) => void,
     walletIsConnected:boolean,
-    walletPublicKey: string
+    walletPublicKey: string,
+    walletBalance: number
 }> = ({
     setIsModalOpen,
     walletIsConnected,
-    walletPublicKey
+    walletPublicKey,
+    walletBalance
 }:{
     setIsModalOpen: (value: boolean) => void,
     walletIsConnected: boolean,
-    walletPublicKey: string
+    walletPublicKey: string,
+    walletBalance: number
 }) => {
     const onBtnClick = () => {
         setIsModalOpen(true);
@@ -22,7 +25,8 @@ export const Navbar: React.FC<{
         <MyNavBar justify="space-between" align="center" >
             <Title level={3}>Dump.fun</Title>
             {walletIsConnected ? (
-                <Flex gap={5} align="center">
+                <Flex gap={10} align="center">
+                    <Label>Balance: ${walletBalance}</Label>
                     <Label copyable={{text: walletPublicKey}}>{walletPublicKey.slice(0,4)}...{walletPublicKey.slice(-4)}</Label>
                     <Button onClick={onBtnClick}>Create/import wallet</Button>
                 </Flex>
