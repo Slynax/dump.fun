@@ -6,7 +6,8 @@
     "sourceMap": true,
     "declaration": true,
     "resolveJsonModule": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "esModuleInterop": true,
   },
   "include": ["src/**/*", "__test__/**/*"],
   "exclude": ["node_modules", "__test__"],
