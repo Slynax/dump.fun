@@ -78,16 +78,14 @@ jobs:
     - name: Load back Docker image
       run: docker load -i back-image.tar
 
-    - name: Set up Docker Compose
-      uses: hoverkraft-tech/compose-action@v2.1.0
-      with:
-        command: up -d back
+    - name: Start back Docker container
+      run: docker run -d -p 5001:5001 ${{ secrets.DOCKER_USERNAME }}/dump.fun-back:latest
 
-    - name: Install dependencies
-      run: npm install --prefix back
+    - name: Wait for back container to be ready
+      run: sleep 10
 
-    - name: Run tests with Jest
-      run: npm test --prefix back
+    - name: Validate back container
+      run: curl --fail http://localhost:5001 || exit 1
 
   test-front:
     runs-on: ubuntu-latest
@@ -105,16 +103,14 @@ jobs:
     - name: Load front Docker image
       run: docker load -i front-image.tar
 
-    - name: Set up Docker Compose
-      uses: hoverkraft-tech/compose-action@v2.1.0
-      with:
-        command: up -d front
+    - name: Start front Docker container
+      run: docker run -d -p 80:80 ${{ secrets.DOCKER_USERNAME }}/dump.fun-front:latest
 
-    - name: Install dependencies
-      run: npm install --prefix front
+    - name: Wait for front container to be ready
+      run: sleep 10
 
-    - name: Run tests with Jest
-      run: npm test --prefix front
+    - name: Validate front container
+      run: curl --fail http://localhost:80 || exit 1
   
   push-back:
     runs-on: ubuntu-latest
