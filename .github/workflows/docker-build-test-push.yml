@@ -76,7 +76,7 @@ jobs:
         name: back-docker-image
 
     - name: Load back Docker image
-      run: docker load -i back-docker-image/back-image.tar
+      run: docker load -i back-image.tar
 
     - name: Set up Docker Compose
       uses: hoverkraft-tech/compose-action@v2.1.0
@@ -103,7 +103,7 @@ jobs:
         name: front-docker-image
 
     - name: Load front Docker image
-      run: docker load -i front-docker-image/front-image.tar
+      run: docker load -i front-image.tar
 
     - name: Set up Docker Compose
       uses: hoverkraft-tech/compose-action@v2.1.0
