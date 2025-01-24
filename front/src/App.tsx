@@ -1,13 +1,12 @@
-import { useState } from 'react'
 import './App.css'
+import AppRouter from './router';
+import {SocketProvider} from "./providers";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div>
-        Hello
-    </div>
+    <SocketProvider>
+        <AppRouter />
+    </SocketProvider>
   )
 }
 

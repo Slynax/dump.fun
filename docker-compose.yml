@@ -1,0 +1,15 @@
+services:
+
+  back:
+    build: ./back
+    ports:
+      - "5001:5001"
+    environment:
+      - NODE_ENV=production
+
+  front:
+    build: ./front
+    ports:
+      - "80:80"
+    depends_on:
+      - back
