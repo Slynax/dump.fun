@@ -1,4 +1,4 @@
-import express from 'express';
+import * as express from 'express';
 import PublicRoutes from './routes'
 
 const PublicEndpoints = express.Router({ mergeParams: true });
