@@ -130,10 +130,9 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: back-docker-image
-        path: back-docker-image/back-image.tar
 
     - name: Load back Docker image
-      run: docker load -i back-docker-image/back-image.tar
+      run: docker load -i back-image.tar
 
     - name: Push back Docker image to Docker Hub
       run: docker push ${{ secrets.DOCKER_USERNAME }}/dump.fun-back:latest
@@ -156,10 +155,9 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: front-docker-image
-        path: front-docker-image/front-image.tar
 
     - name: Load front Docker image
-      run: docker load -i front-docker-image/front-image.tar
+      run: docker load -i front-image.tar
 
     - name: Push front Docker image to Docker Hub
       run: docker push ${{ secrets.DOCKER_USERNAME }}/dump.fun-front:latest
