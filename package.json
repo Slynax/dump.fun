@@ -4,8 +4,8 @@
     "install:front": "cd front && npm install",
     "install:back": "cd back && npm install",
     "dev": "concurrently \"npm run back\" \"npm run front\"",
-    "front": "npm start --prefix front",
-    "back": "npm run startb --prefix back",
+    "front": "npm run dev --prefix front",
+    "back": "npm run start --prefix back",
     "e2e": "cypress run"
   },
   "devDependencies": {
