@@ -5,7 +5,7 @@
     "install:back": "cd back && npm install",
     "dev": "concurrently \"npm run back\" \"npm run front\"",
     "front": "npm start --prefix front",
-    "back": "npm startb --prefix back",
+    "back": "npm run startb --prefix back",
     "e2e": "cypress run"
   },
   "devDependencies": {
