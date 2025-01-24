@@ -81,11 +81,11 @@ jobs:
     - name: Start back Docker container
       run: docker run -d -p 5001:5001 ${{ secrets.DOCKER_USERNAME }}/dump.fun-back:latest
 
-    - name: Wait for back container to be ready
-      run: sleep 10
+    - name: Install dependencies
+      run: npm install --prefix back
 
-    - name: Validate back container
-      run: curl --fail http://localhost:5001 || exit 1
+    - name: Run tests with Jest
+      run: npm test --prefix back
 
   test-front:
     runs-on: ubuntu-latest
@@ -106,11 +106,11 @@ jobs:
     - name: Start front Docker container
       run: docker run -d -p 80:80 ${{ secrets.DOCKER_USERNAME }}/dump.fun-front:latest
 
-    - name: Wait for front container to be ready
-      run: sleep 10
+    - name: Install dependencies
+      run: npm install --prefix front
 
-    - name: Validate front container
-      run: curl --fail http://localhost:80 || exit 1
+    - name: Run tests with Jest
+      run: npm test --prefix front
   
   push-back:
     runs-on: ubuntu-latest
