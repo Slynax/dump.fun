@@ -5,9 +5,11 @@
     "install:back": "cd back && npm install",
     "dev": "concurrently \"npm run back\" \"npm run front\"",
     "front": "npm start --prefix front",
-    "back": "node back/index.ts"
+    "back": "node back/index.ts",
+    "e2e": "cypress run"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "cypress": "^14.0.0"
   }
 }

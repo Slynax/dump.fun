@@ -1,9 +1,9 @@
 name: Build, Test, and Push Docker Image to Docker Hub
 
 on:
-  push:
-    branches:
-      - features/docker
+  release:
+    types:
+      - published
 
 jobs:
   build-back:
