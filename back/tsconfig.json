@@ -1,17 +1,12 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "moduleResolution": "NodeNext",
-    "esModuleInterop": true,
-    "outDir": "dist",
-    "target": "ES2022",
+    "module": "commonjs",
+    "target": "es2017",
     "strict": true,
+    "sourceMap": true,
+    "declaration": true,
     "resolveJsonModule": true,
-    "allowJs": true,
-    "baseUrl": "src",
-    "skipLibCheck": true,
+    "outDir": "./dist"
   },
   "include": ["src/**/*", "__test__/**/*"],
   "exclude": ["node_modules", "__test__"],

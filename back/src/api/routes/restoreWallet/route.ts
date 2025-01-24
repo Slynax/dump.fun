@@ -1,24 +1,29 @@
 import { Request, Response } from 'express';
 import { RequestInterfaceBody, RequestInterfaceParams, RequestInterfaceQuery, ResponseInterface } from './interfaces';
-import {getTransactionHistory} from "../../../services/solana/getTransactionHistory";
+import { restoreWallet } from '../../../helpers/restoreWallet';
+import { getWalletBalance } from "../../../helpers/getWalletBalance";
 
 export default async (
     req: Request<RequestInterfaceParams, any, RequestInterfaceBody, RequestInterfaceQuery>,
     res: Response<ResponseInterface>,
 ): Promise<Response<ResponseInterface>> => {
-    const {
-        query: { token },
-    } = req;
 
-    const transactionHistory = await getTransactionHistory({
-        programId: token
-    });
+    const { privateKey } = req.query;
 
-    if (!transactionHistory) {
+    const keypair = restoreWallet(privateKey);
+
+    if (!keypair) {
+        return res.status(500);
+    }
+
+    const balance = await getWalletBalance(keypair);
+
+    if (!balance) {
         return res.status(500);
     }
 
     return res.send({
-        data: transactionHistory
+        publicKey: keypair.publicKey.toString(),
+        balance,
     });
 };
