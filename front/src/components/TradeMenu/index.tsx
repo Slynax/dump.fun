@@ -1,37 +1,57 @@
 import React from "react";
 import {Flex, Input} from "antd";
-import {TradeMenuContainer, PercentButton, ActionButton, SubmitButton, MenuTitle} from "./styles.tsx";
+import {TradeMenuContainer, PercentButton, ActionButton, SubmitButton, MenuTitle, ErrorLabel} from "./styles.tsx";
+import { io } from 'socket.io-client';
 
-export const TradeMenu: React.FC<{walletSecretKey:string}> = ({
+export const TradeMenu: React.FC<{walletPublicKey:string,walletSecretKey:string}> = ({
+    walletPublicKey,
     walletSecretKey
 }:{
+    walletPublicKey:string,
     walletSecretKey:string
 }) => {
     const [percent, setPercent] = React.useState(0)
     const [action, setAction] = React.useState("Buy")
     const [amount, setAmount] = React.useState(0)
     const [tokenKey, setTokenKey] = React.useState("")
+    const [errorMsg, setErrorMsg] = React.useState<string | false>(false)
 
-    const onAmountChange = (value: any) => {
-        setAmount(value);
+    const onAmountChange = (e: any) => {
+        const value = e.target.value;
+        if(value <= 0) {
+            setErrorMsg("Amount must be greater than 0");
+            return;
+        }else{
+            setErrorMsg(false);
+            setAmount(value);
+        }
     }
 
     const onSubmitBtnClick = async () => {
+        console.log("walletSecretKey : ", walletSecretKey);
+        console.log("walletPublicKey : ", walletPublicKey);
+        console.log("amount : ", amount);
+        console.log("percent : ", percent);
+        console.log("action : ", action);
+        console.log("tokenKey : ", tokenKey);
         try {
-            const socket = new WebSocket('ws://localhost:8001');
-            socket.onopen = () => {
+            const socket = io('ws://localhost:5001');
+            socket.on('connect', () => {
                 const message = {
                     publicKey: walletSecretKey,
                     privateKey: walletSecretKey,
                     action: action.toUpperCase(),
                     amount: amount,
+                    percent: percent,
                     tokenKey: tokenKey
                 };
-                socket.send(JSON.stringify({ channel: 'order', message }));
-            };
-            socket.onerror = (error) => {
-                console.error('WebSocket error:', error);
-            };
+                socket.emit('order', message);
+            });
+
+            socket.on('error', (error: any) => {
+                console.error('Socket error:', error);
+            });
+
         } catch (error) {
             console.error('Error sending message:', error);
         }
@@ -56,8 +76,11 @@ export const TradeMenu: React.FC<{walletSecretKey:string}> = ({
                 <Input placeholder="enter amount" type="number" min={0} onChange={onAmountChange} id="input-amout"></Input>
             </Flex>
             <Flex gap={5} justify="center">
-                <SubmitButton style={{width:"100%"}} onClick={onSubmitBtnClick} id="submit-btn">{action}</SubmitButton>
+                <SubmitButton style={{width:"100%"}} onClick={onSubmitBtnClick} id="submit-btn" disabled={errorMsg !== false}>{action}</SubmitButton>
             </Flex>
+            {errorMsg &&
+                <ErrorLabel>{errorMsg}</ErrorLabel>
+            }
         </TradeMenuContainer>
     );
 }

@@ -14,6 +14,10 @@ export function initSockets({ server: expressServer }: { server: Server }) {
 
     SocketServer.on('connection', (socket) => {
         console.info(`New socket connected`);
+
+        socket.on('order', (message: any) => {
+            console.log('📦 Received order message:', message);
+        });
     });
 
     SocketServer.on('disconnect', (socket) => {

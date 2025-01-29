@@ -19,6 +19,7 @@ export const Home: React.FC = () => {
             />
             <Flex justify="center">
                 <TradeMenu
+                    walletPublicKey={walletPublicKey}
                     walletSecretKey={walletSecretKey}
                 />
             </Flex>
