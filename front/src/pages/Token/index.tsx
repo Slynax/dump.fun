@@ -11,7 +11,6 @@ export const Token = () => {
 
     const {socket} = useSocketContext();
 
-    const [chartData, setChartData] = useState([]);
     const [transactions, setTransactions] = useState([] as any[]);
 
     useListen((message) => {
@@ -36,20 +35,24 @@ export const Token = () => {
         }
     }, [tokenId, socket]);
 
-    useEffect(() => {
-        const candles = computeCandles(transactions);
-        setChartData(candles);
-        console.log(candles);
-    }, [transactions]);
-
     return (
         <Flex vertical>
             <h1>{tokenId}</h1>
-            <Chart
-                data={
-                    chartData
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 5}}>
+                {transactions.length}
+                {
+                    transactions.map((tx, index) => (
+                        <div key={index} style={{ width: '100%', display: 'flex' }}>
+                            <span>
+                                {tx.signature}
+                            </span>
+                            <span>
+                                {new Date(tx.time).toLocaleString()}
+                            </span>
+                        </div>
+                    ))
                 }
-            />
+            </div>
 
         </Flex>
     )

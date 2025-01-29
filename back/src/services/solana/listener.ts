@@ -7,6 +7,10 @@ import { connection } from "./connection";
 
 let ws: WebSocket;
 
+let addressToId: { [key: string]: string } = {
+
+};
+
 function extractTokenTransferInfo(logs: string[]) {
     let senderKey = "";
     let mint = "";
@@ -56,6 +60,12 @@ export const subscribeToEvent = ({programId}: {programId: string}) => {
     };
 
     ws.send(JSON.stringify(request));
+
+    ws.once('message', (data: string) => {
+        if (Object.values(addressToId).includes(programId)) return;
+        const parsedData = JSON.parse(data);
+        addressToId[parsedData.result] = programId;
+    });
 }
 
 export const unsubscribeToken = ({key}: {key: string}) => {
@@ -81,7 +91,13 @@ export const listener = async () => {
         const parsedData = JSON.parse(data);
         const receiveTime = Date.now();
 
-        if (parsedData.method !== 'logsNotification') return;
+        if (!parsedData?.params?.subscription){
+            return;
+        }
+
+        const mint = addressToId[parsedData.params.subscription];
+
+        if (parsedData.method !== 'logsNotification' || !mint) return;
 
         const logDetails = parsedData.params.result;
         const signature = logDetails.value.signature;
@@ -89,27 +105,15 @@ export const listener = async () => {
 
         let obj: any = {
             signature,
-            solAmount: null,
             time: receiveTime,
-            programId: logDetails.subscription,
-            mint: '',
             rawLogs: logs,
+            mint,
         };
 
-        const { senderKey, mint, tokenAmount } = extractTokenTransferInfo(logs);
-
-        console.log({
-            ...obj,
-            solAmount: tokenAmount,
-        })
-
         emitSocket({
-            channel: obj.mint || "unknown",
+            channel: mint,
             action: SocketActionLabel.CANDLE_UPDATE,
-            data: JSON.stringify({
-                ...obj,
-                solAmount: tokenAmount,
-            }),
+            data: JSON.stringify(obj),
         });
     });
 
