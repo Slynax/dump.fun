@@ -1,6 +1,7 @@
 import React from "react";
 import {Modal, Button, Typography, Flex, Input, notification} from "antd";
 import {ModalContainer} from "./styles.tsx";
+import {CloseOutlined} from "@ant-design/icons";
 
 export const WalletModal: React.FC<{
     isModalOpen: boolean,
@@ -59,6 +60,7 @@ export const WalletModal: React.FC<{
                     message: 'Success',
                     description: 'Wallet created successfully',
                 });
+                setIsModalOpen(false);
             }else{
                 notification.error({
                     message: 'Error',
@@ -108,7 +110,7 @@ export const WalletModal: React.FC<{
     }
 
     return (
-        <Modal open={isModalOpen} onCancel={onModalClose} footer={null}>
+        <Modal open={isModalOpen} onCancel={onModalClose} footer={null} closeIcon={<CloseOutlined id="modal-close-icon"/>}>
             {mode === "default" &&
                 <ModalContainer justify="space-evenly" vertical>
                     {walletIsConnected && <Typography.Text strong={true}>You are already connected !</Typography.Text>}
