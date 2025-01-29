@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import {Flex, Button} from "antd";
+import {Flex, Button, Typography} from "antd";
 
 export const TradeMenuContainer = styled(Flex)`
     margin-top: 3em;
     padding: 0.5em;
     border-radius: 5px;
-    background-color: #444444;
+    background-color: RGBA(255,255,255,0.05);
+    border: 0.1em solid RGBA(255,255,255,0.15);
 `
 
 export const PercentButton = styled(Button)<{active:boolean}>`
@@ -26,4 +27,8 @@ export const ActionButton = styled(Button)<{active:boolean}>`
 
 export const SubmitButton = styled(Button)`
     width: 100%;
+`;
+
+export const MenuTitle = styled(Typography.Title)`
+    color: white !important;
 `;

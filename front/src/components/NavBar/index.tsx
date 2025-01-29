@@ -26,8 +26,8 @@ export const Navbar: React.FC<{
             <Title level={3}>Dump.fun</Title>
             {walletIsConnected ? (
                 <Flex gap={10} align="center">
-                    <Label>Balance: ${walletBalance}</Label>
-                    <Label copyable={{text: walletPublicKey}}>{walletPublicKey.slice(0,4)}...{walletPublicKey.slice(-4)}</Label>
+                    <Label id="wallet-balance">Balance: ${walletBalance}</Label>
+                    <Label copyable={{text: walletPublicKey}} id="wallet-public-key">{walletPublicKey.slice(0,4)}...{walletPublicKey.slice(-4)}</Label>
                     <Button onClick={onBtnClick} id="open-modal-btn">Create/import wallet</Button>
                 </Flex>
             ) : (

@@ -1,6 +1,6 @@
 import React from "react";
-import {Flex, Input, Typography, notification} from "antd";
-import {TradeMenuContainer, PercentButton, ActionButton, SubmitButton} from "./styles.tsx";
+import {Flex, Input} from "antd";
+import {TradeMenuContainer, PercentButton, ActionButton, SubmitButton, MenuTitle} from "./styles.tsx";
 
 export const TradeMenu: React.FC<{walletSecretKey:string}> = ({
     walletSecretKey
@@ -40,7 +40,7 @@ export const TradeMenu: React.FC<{walletSecretKey:string}> = ({
     return (
         <TradeMenuContainer gap={10} justify="center" vertical>
             <Flex gap={5} justify="center">
-                <Typography.Text>Trade Menu</Typography.Text>
+                <MenuTitle level={4}>Trade Menu</MenuTitle>
             </Flex>
             <Flex gap={5}>
                 <PercentButton onClick={() => setPercent(25)} active={percent === 25} id="percent-btn-25">25%</PercentButton>
