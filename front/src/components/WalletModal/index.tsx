@@ -60,7 +60,6 @@ export const WalletModal: React.FC<{
                     message: 'Success',
                     description: 'Wallet created successfully',
                 });
-                setIsModalOpen(false);
             }else{
                 notification.error({
                     message: 'Error',
