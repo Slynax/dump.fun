@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {Flex, Button} from "antd";
 
 export const TradeMenuContainer = styled(Flex)`
+    margin-top: 3em;
     padding: 0.5em;
     border-radius: 5px;
     background-color: #444444;

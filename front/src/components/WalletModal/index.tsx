@@ -112,8 +112,8 @@ export const WalletModal: React.FC<{
             {mode === "default" &&
                 <ModalContainer justify="space-evenly" vertical>
                     {walletIsConnected && <Typography.Text strong={true}>You are already connected !</Typography.Text>}
-                    <Button onClick={onCreateBtnClick}>Create Wallet</Button>
-                    <Button onClick={onImportBtnClick}>Import Wallet</Button>
+                    <Button onClick={onCreateBtnClick} id="create-wallet-btn">Create Wallet</Button>
+                    <Button onClick={onImportBtnClick} id="import-wallet-btn">Import Wallet</Button>
                 </ModalContainer>
             }
             {mode === "create" &&
@@ -124,7 +124,7 @@ export const WalletModal: React.FC<{
             }
             {mode === "import" &&
                 <ModalContainer justify="space-evenly" vertical>
-                    <Input placeholder="enter private Key" onChange={onSecretKeyChange}></Input><Button onClick={restoreWallet}>Apply</Button>
+                    <Input placeholder="enter private Key" onChange={onSecretKeyChange} id="private-key-input"></Input><Button onClick={restoreWallet} id="restore-wallet-btn">Apply</Button>
                 </ModalContainer>
             }
         </Modal>
