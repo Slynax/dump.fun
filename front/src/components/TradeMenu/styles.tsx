@@ -14,7 +14,10 @@ export const PercentButton = styled(Button)<{active:boolean}>`
 
     &:hover {
         background-color: #c5e4fb !important;
+        border:none;
     }
+    border:none;
+    color: white;
 `;
 
 export const ActionButton = styled(Button)<{active:boolean}>`
@@ -22,13 +25,21 @@ export const ActionButton = styled(Button)<{active:boolean}>`
     width: 50%;
     &:hover {
         background-color: #c5e4fb !important;
+        border:none;
     }
+    border:none;
+    color: white;
 `;
 
 export const SubmitButton = styled(Button)`
     width: 100%;
+    border:none;
 `;
 
 export const MenuTitle = styled(Typography.Title)`
     color: white !important;
 `;
+
+export const ErrorLabel = styled(Typography.Text)`
+    color: red;
+`
