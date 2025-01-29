@@ -20,6 +20,10 @@ export function initSockets({ server: expressServer }: { server: Server }) {
             console.log('Received message:', data);
             websocketMessageHandler({ socket, data });
         });
+
+        socket.on('order', (message: any) => {
+            console.log('📦 Received order message:', message);
+        });
     });
 
     SocketServer.on('disconnect', (socket) => {
