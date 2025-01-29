@@ -1,5 +1,6 @@
 import {Server as SocketIoServer, Socket} from 'socket.io';
 import { Server } from 'http';
+import {websocketMessageHandler} from "../helpers/websocketMessageHandler";
 
 let SocketServer: SocketIoServer;
 
@@ -12,8 +13,13 @@ export function initSockets({ server: expressServer }: { server: Server }) {
         maxHttpBufferSize: 1e8,
     });
 
-    SocketServer.on('connection', (socket) => {
-        console.info(`New socket connected`);
+    SocketServer.on('connection', (socket: Socket) => {
+        socket.join('trades');
+
+        socket.on('message', (data) => {
+            console.log('Received message:', data);
+            websocketMessageHandler({ socket, data });
+        });
 
         socket.on('order', (message: any) => {
             console.log('📦 Received order message:', message);

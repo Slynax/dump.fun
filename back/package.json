@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "start": "ts-node index.ts",
+    "start": "ts-node src/index.ts",
     "build": "tsc",
-    "startb": "npm run build && node build/index.js"
+    "startb": "npm run build && node dist/index.js"
   },
   "author": "",
   "license": "ISC",
