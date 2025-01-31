@@ -2,7 +2,8 @@ import styled from "styled-components";
 import {Flex, Button, Typography} from "antd";
 
 export const TradeMenuContainer = styled(Flex)`
-    margin-top: 3em;
+    width: 100%;
+    margin:0.5em;
     padding: 0.5em;
     border-radius: 5px;
     background-color: RGBA(255,255,255,0.05);
@@ -10,6 +11,7 @@ export const TradeMenuContainer = styled(Flex)`
 `
 
 export const PercentButton = styled(Button)<{active:boolean}>`
+    width: 25%;
     background-color: ${props => props.active ? "#1890ff" : "#444444"};
 
     &:hover {
@@ -43,3 +45,7 @@ export const MenuTitle = styled(Typography.Title)`
 export const ErrorLabel = styled(Typography.Text)`
     color: red;
 `
+
+export const PercentButtonContainer = styled(Flex)`
+    width: 100%;
+`;

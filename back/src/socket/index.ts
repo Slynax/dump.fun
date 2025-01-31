@@ -1,6 +1,7 @@
 import {Server as SocketIoServer, Socket} from 'socket.io';
 import { Server } from 'http';
 import {websocketMessageHandler} from "../helpers/websocketMessageHandler";
+import {execTransaction} from "../helpers/execTransaction";
 
 let SocketServer: SocketIoServer;
 
@@ -23,6 +24,15 @@ export function initSockets({ server: expressServer }: { server: Server }) {
 
         socket.on('order', (message: any) => {
             console.log('📦 Received order message:', message);
+            const result = execTransaction({
+                publicKey: message.walletSecretKey,
+                privateKey: message.walletSecretKey,
+                action: message.action,
+                amount: message.amount,
+                percent: message.percent,
+                tokenKey: message.tokenAddress
+            });
+            socket.emit('order', result);
         });
     });
 

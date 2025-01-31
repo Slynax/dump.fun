@@ -16,13 +16,10 @@ app.use('/', PublicEndpoints);
 
 (async () => {
     connectSolana();
-    console.log('Start')
     await listener();
-    console.log('1');
     const server = app.listen(5001, () => {
         console.log('Server is running on http://localhost:5001');
     });
-    console.log('HDUYZGHIUD')
     initSockets({ server });
 })();
 
