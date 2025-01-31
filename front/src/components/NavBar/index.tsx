@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import {Button, Flex} from "antd"
 import {MyNavBar, Title, Label} from "./styles.tsx"
 

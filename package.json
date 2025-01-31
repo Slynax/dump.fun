@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "postinstall": "npm run install:front && npm run install:back ",
+    "install:front": "cd front && npm install",
+    "install:back": "cd back && npm install",
+    "dev": "concurrently \"npm run back\" \"npm run front\"",
+    "front": "npm run dev --prefix front",
+    "back": "npm run start --prefix back",
+    "e2e": "cypress run",
+    "cy:open": "cypress open"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "cypress": "^14.0.0"
+  }
+}

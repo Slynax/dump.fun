@@ -9,7 +9,8 @@
     "outDir": "./dist",
     "esModuleInterop": true,
   },
-  "include": ["src/**/*", "__test__/**/*"],
+
+  "include": ["src/**/*", "index.ts", "__test__/**/*"],
   "exclude": ["node_modules", "__test__"],
   "baseUrl": "./src",
 }

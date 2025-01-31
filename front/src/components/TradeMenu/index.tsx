@@ -4,7 +4,6 @@ import {TradeMenuContainer, PercentButton, ActionButton, SubmitButton, MenuTitle
 import { io } from 'socket.io-client';
 
 export const TradeMenu: React.FC<{walletPublicKey:string,walletSecretKey:string, tokenAddress:string}> = ({
-    walletPublicKey,
     walletSecretKey,
     tokenAddress
 }:{

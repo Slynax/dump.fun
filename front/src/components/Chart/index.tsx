@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { createChart, IChartApi, ISeriesApi } from 'lightweight-charts';
 
 // Each candle has a numeric timestamp (seconds), plus OHLC data
@@ -8,12 +8,6 @@ export interface Candle {
     high: number;
     low: number;
     close: number;
-}
-
-interface LightweighthartProps {
-    data: Candle[];
-    width?: number;
-    height?: number;
 }
 
 export const Chart = ({
