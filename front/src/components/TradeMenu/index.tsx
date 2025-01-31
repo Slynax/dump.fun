@@ -1,20 +1,22 @@
-import React from "react";
-import {Flex, Input} from "antd";
-import {TradeMenuContainer, PercentButton, ActionButton, SubmitButton, MenuTitle, ErrorLabel} from "./styles.tsx";
+import React, {useEffect} from "react";
+import {Flex, Input, notification} from "antd";
+import {TradeMenuContainer, PercentButton, ActionButton, SubmitButton, MenuTitle, ErrorLabel, PercentButtonContainer} from "./styles.tsx";
 import { io } from 'socket.io-client';
 
-export const TradeMenu: React.FC<{walletPublicKey:string,walletSecretKey:string}> = ({
+export const TradeMenu: React.FC<{walletPublicKey:string,walletSecretKey:string, tokenAddress:string}> = ({
     walletPublicKey,
-    walletSecretKey
+    walletSecretKey,
+    tokenAddress
 }:{
     walletPublicKey:string,
-    walletSecretKey:string
+    walletSecretKey:string,
+    tokenAddress:string
 }) => {
     const [percent, setPercent] = React.useState(0)
     const [action, setAction] = React.useState("Buy")
     const [amount, setAmount] = React.useState(0)
-    const [tokenKey, setTokenKey] = React.useState("")
     const [errorMsg, setErrorMsg] = React.useState<string | false>(false)
+    const [socket , setSocket] = React.useState<any>(null);
 
     const onAmountChange = (e: any) => {
         const value = e.target.value;
@@ -27,47 +29,58 @@ export const TradeMenu: React.FC<{walletPublicKey:string,walletSecretKey:string}
         }
     }
 
+    const initWebSocket = () => {
+        const socket = io('ws://localhost:5001');
+        socket.on('connect', () => {
+            console.log('Connected');
+        });
+
+        socket.on("order", (data: any) => {
+            if(data){
+                notification.success({
+                    message: "Order Executed",
+                    description: "Order has been executed successfully"
+                });
+            }
+        });
+
+        socket.on('error', (error: any) => {
+            console.error('Socket error:', error);
+        });
+        setSocket(socket);
+    }
+
     const onSubmitBtnClick = async () => {
-        console.log("walletSecretKey : ", walletSecretKey);
-        console.log("walletPublicKey : ", walletPublicKey);
-        console.log("amount : ", amount);
-        console.log("percent : ", percent);
-        console.log("action : ", action);
-        console.log("tokenKey : ", tokenKey);
         try {
-            const socket = io('ws://localhost:5001');
-            socket.on('connect', () => {
-                const message = {
-                    publicKey: walletSecretKey,
-                    privateKey: walletSecretKey,
-                    action: action.toUpperCase(),
-                    amount: amount,
-                    percent: percent,
-                    tokenKey: tokenKey
-                };
-                socket.emit('order', message);
+            socket.emit('order', {
+                publicKey: walletSecretKey,
+                privateKey: walletSecretKey,
+                action: action.toUpperCase(),
+                amount: amount,
+                percent: percent,
+                tokenKey: tokenAddress
             });
-
-            socket.on('error', (error: any) => {
-                console.error('Socket error:', error);
-            });
-
         } catch (error) {
             console.error('Error sending message:', error);
         }
     }
 
+    useEffect(
+        () => {
+            initWebSocket();
+        },[]
+    )
     return (
         <TradeMenuContainer gap={10} justify="center" vertical>
             <Flex gap={5} justify="center">
                 <MenuTitle level={4}>Trade Menu</MenuTitle>
             </Flex>
-            <Flex gap={5}>
+            <PercentButtonContainer gap={5}>
                 <PercentButton onClick={() => setPercent(25)} active={percent === 25} id="percent-btn-25">25%</PercentButton>
                 <PercentButton onClick={() => setPercent(50)} active={percent === 50} id="percent-btn-50">50%</PercentButton>
                 <PercentButton onClick={() => setPercent(75)} active={percent === 75} id="percent-btn-75">75%</PercentButton>
                 <PercentButton onClick={() => setPercent(100)} active={percent === 100} id="percent-btn-100">100%</PercentButton>
-            </Flex>
+            </PercentButtonContainer>
             <Flex gap={5} justify="center">
                 <ActionButton onClick={() => setAction("Buy")} active={action === "Buy"} id="action-btn-buy">Buy</ActionButton>
                 <ActionButton onClick={() => setAction("Sell")} active={action === "Sell"} id="action-btn-sell">Sell</ActionButton>
