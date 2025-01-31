@@ -1,13 +1,13 @@
 import { generateWallet } from '../src/helpers/generateWallet';
 import { restoreWallet } from '../src/helpers/restoreWallet';
 import { getWalletBalance } from '../src/helpers/getWalletBalance';
+
 import { PublicKey } from "@solana/web3.js";
 import bs58 from 'bs58';
 import { connectSolana } from "../src/services/solana/connection";
 import { describe, it, expect, beforeAll } from 'vitest';
 
 describe('Wallet test', () => {
-
     beforeAll(() => {
         connectSolana();
     });
@@ -74,5 +74,4 @@ describe('Wallet test', () => {
         const secretKeyBs58 = bs58.encode(restoredWallet.secretKey);
         expect(secretKeyBs58).toMatch(/^(\w{4,}){3}\w{4}$/);
     });
-
 });
