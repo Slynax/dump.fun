@@ -12,7 +12,7 @@ describe('Wallet creation', () => {
     cy.get('button#open-modal-btn').click();
     cy.get('button#create-wallet-btn').click();
     cy.get('span#modal-close-icon').click();  // cy.get('button[aria-label="Close"]').click();
-    cy.get('span#wallet-public-key button').click();
+    cy.get('span#wallet-public-key button').click({ force: true });
 
     cy.window().then((win) => {
       win.navigator.clipboard.readText().then((text) => {
